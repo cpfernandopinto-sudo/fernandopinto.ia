@@ -543,6 +543,178 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
   .prof-img{width:280px;height:340px;}
   .proc-g{grid-template-columns:1fr;}
 }
+
+/* ═══════════════════════════════════════════════
+   CASES — Tabs section
+═══════════════════════════════════════════════ */
+#cases{
+  position:relative;z-index:1;
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:108px 0;
+  overflow:hidden;
+}
+/* ambient glows */
+.cases-glow-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.cases-g1{position:absolute;width:440px;height:440px;border-radius:50%;top:60px;left:-100px;background:rgba(0,212,255,.08);filter:blur(110px);opacity:.5;}
+.cases-g2{position:absolute;width:380px;height:380px;border-radius:50%;right:-80px;bottom:80px;background:rgba(67,97,255,.1);filter:blur(110px);opacity:.45;}
+
+/* header */
+.cases-hd{text-align:center;margin-bottom:44px;}
+.cases-hd p{max-width:620px;margin:12px auto 0;font-size:15px;color:var(--tm);line-height:1.76;}
+
+/* tab switcher */
+.cases-tabs{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:36px;
+}
+.case-tab-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
+  padding:10px 22px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.03);
+  color:rgba(255,255,255,.5);
+  cursor:pointer;
+  transition:all .28s cubic-bezier(.22,1,.36,1);
+  user-select:none;
+}
+.case-tab-btn:hover{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.22);}
+.case-tab-btn.active{
+  background:linear-gradient(135deg,rgba(0,212,255,.14),rgba(0,212,255,.06));
+  border-color:rgba(0,212,255,.4);
+  color:var(--c);
+  box-shadow:0 0 18px rgba(0,212,255,.14);
+}
+.case-tab-btn.active.ptx{
+  background:linear-gradient(135deg,rgba(99,213,255,.12),rgba(47,94,255,.07));
+  border-color:rgba(99,213,255,.38);
+  color:#63d5ff;
+  box-shadow:0 0 18px rgba(99,213,255,.12);
+}
+.case-tab-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.case-tab-dot.cyan{background:var(--c);box-shadow:0 0 6px rgba(0,212,255,.8);}
+.case-tab-dot.blue{background:#63d5ff;box-shadow:0 0 6px rgba(99,213,255,.8);}
+
+/* panels */
+.case-panels{position:relative;}
+.case-panel{
+  display:none;
+  animation:caseFadeIn .38s cubic-bezier(.22,1,.36,1);
+}
+.case-panel.active{display:block;}
+@keyframes caseFadeIn{
+  from{opacity:0;transform:translateY(14px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+
+/* ── shared flow wrapper styles for both cases ── */
+.case-flow-wrap{
+  position:relative;max-width:1100px;margin:0 auto;
+  padding:26px;border-radius:30px;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(4,10,22,.82),rgba(5,11,23,.95));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 28px 72px rgba(0,0,0,.42);
+  backdrop-filter:blur(14px);
+}
+.case-kicker-wrap{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--fm);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 14px;border-radius:100px;
+  margin-bottom:16px;
+}
+.case-kicker-wrap.cyan{border:1px solid rgba(0,212,255,.22);color:rgba(0,212,255,.85);background:rgba(0,212,255,.06);}
+.case-kicker-wrap.blue{border:1px solid rgba(99,213,255,.22);color:rgba(99,213,255,.9);background:rgba(99,213,255,.06);}
+
+/* ── Biotech flow nodes ── */
+.cb-flow-grid{position:relative;height:780px;border-radius:22px;background:radial-gradient(circle at center,rgba(0,212,255,.05),transparent 40%);}
+.cb-pulse{position:absolute;left:50%;transform:translateX(-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,.10) 0%,rgba(0,212,255,.03) 40%,transparent 72%);filter:blur(18px);opacity:.3;pointer-events:none;}
+.cb-pulse-top{top:110px;}.cb-pulse-bot{top:450px;}
+.cb-flow-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+.cb-line{fill:none;stroke:url(#cbGrad);stroke-width:2.4;stroke-linecap:round;opacity:.18;filter:drop-shadow(0 0 10px rgba(0,212,255,.22)) drop-shadow(0 0 20px rgba(6,182,212,.10));}
+.cb-line.active{opacity:1;}
+.cb-line.cb-ready{transition:opacity .35s ease;}
+.cb-node{position:absolute;min-width:190px;padding:18px 20px 17px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,rgba(255,255,255,.048),rgba(255,255,255,.018));box-shadow:0 14px 40px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(12px);text-align:center;opacity:0;transform:translateY(18px) scale(.985);transition:opacity .55s ease,transform .55s ease,border-color .55s ease,box-shadow .55s ease;}
+.cb-node.active{opacity:1;transform:translateY(0) scale(1);border-color:rgba(0,212,255,.28);box-shadow:0 18px 52px rgba(0,0,0,.36),0 0 26px rgba(0,212,255,.12),inset 0 1px 0 rgba(255,255,255,.05);}
+.cb-node.pulsing{animation:nodePulse 2.4s ease-in-out infinite;}
+.cb-node-dot{width:8px;height:8px;margin:0 auto 10px;border-radius:50%;background:linear-gradient(180deg,var(--c),#60a5fa);box-shadow:0 0 12px rgba(0,212,255,.4);}
+.cb-node-label{font-size:1.06rem;font-weight:700;letter-spacing:-.02em;color:#f8fbff;font-family:'Outfit',sans-serif;}
+.cb-node-sub{margin-top:5px;font-size:.9rem;line-height:1.45;color:rgba(218,230,255,.58);}
+.cbn-tms{top:54px;left:66px;}.cbn-wms{top:54px;left:50%;transform:translateX(-50%) translateY(18px) scale(.985);}.cbn-erp{top:54px;right:66px;}
+.cbn-n8n{top:210px;left:50%;min-width:230px;transform:translateX(-50%) translateY(18px) scale(.985);}
+.cbn-bq {top:356px;left:50%;min-width:250px;transform:translateX(-50%) translateY(18px) scale(.985);}
+.cbn-ai {top:508px;left:50%;min-width:220px;transform:translateX(-50%) translateY(18px) scale(.985);}
+.cbn-dash{bottom:48px;left:66px;}.cbn-anal{bottom:48px;left:50%;transform:translateX(-50%) translateY(18px) scale(.985);}.cbn-email{bottom:48px;right:66px;}
+.cbn-wms.active,.cbn-n8n.active,.cbn-bq.active,.cbn-ai.active,.cbn-anal.active{transform:translateX(-50%) translateY(0) scale(1);}
+
+/* ── PolitixOS flow nodes ── */
+.px-flow-grid{position:relative;height:900px;border-radius:22px;background:radial-gradient(circle at center,rgba(67,97,255,.06),transparent 40%);}
+.px-flow-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;}
+.px-line{fill:none;stroke:url(#pxGrad);stroke-width:2.4;stroke-linecap:round;opacity:.18;filter:drop-shadow(0 0 8px rgba(94,133,255,.24)) drop-shadow(0 0 18px rgba(89,199,255,.10));}
+.px-line.active{opacity:1;}
+.px-node{position:absolute;min-width:200px;padding:17px 18px;border-radius:20px;border:1px solid rgba(142,163,214,.12);background:linear-gradient(180deg,rgba(255,255,255,.048),rgba(255,255,255,.018));box-shadow:0 12px 36px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:blur(10px);text-align:center;opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s ease,transform .6s ease,border-color .6s ease,box-shadow .6s ease;}
+.px-node.active{opacity:1;transform:translateY(0) scale(1);border-color:rgba(108,168,255,.32);box-shadow:0 16px 46px rgba(0,0,0,.32),0 0 28px rgba(89,151,255,.10),inset 0 1px 0 rgba(255,255,255,.05);}
+.px-node.pulsing{animation:pxNodePulse 2.4s ease-in-out infinite;}
+@keyframes pxNodePulse{
+  0%,100%{box-shadow:0 16px 46px rgba(0,0,0,.32),0 0 18px rgba(108,168,255,.10),inset 0 1px 0 rgba(255,255,255,.05);}
+  50%    {box-shadow:0 16px 46px rgba(0,0,0,.32),0 0 34px rgba(99,213,255,.20),0 0 56px rgba(47,94,255,.10),inset 0 1px 0 rgba(255,255,255,.05);}
+}
+.px-node-badge{display:inline-flex;align-items:center;justify-content:center;margin-bottom:9px;padding:4px 10px;border-radius:100px;background:rgba(98,127,255,.1);border:1px solid rgba(145,169,255,.12);color:rgba(199,216,255,.82);font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-family:var(--fm);}
+.px-node-label{color:#f8fbff;font-size:1.04rem;font-weight:700;letter-spacing:-.02em;font-family:'Outfit',sans-serif;}
+.px-node-sub{margin-top:6px;color:rgba(218,230,255,.58);font-size:.88rem;line-height:1.45;}
+/* px node positions */
+.pxn-fontes{top:60px;left:38px;}.pxn-mencoes{top:60px;left:50%;transform:translateX(-50%) translateY(22px) scale(.985);}.pxn-ambiente{top:60px;right:38px;}
+.pxn-n8n{top:265px;left:50%;min-width:240px;transform:translateX(-50%) translateY(22px) scale(.985);}
+.pxn-bq {top:445px;left:50%;min-width:250px;transform:translateX(-50%) translateY(22px) scale(.985);}
+.pxn-ai {top:625px;left:50%;min-width:280px;transform:translateX(-50%) translateY(22px) scale(.985);}
+.pxn-dashboard{bottom:42px;left:28px;}.pxn-radar{bottom:42px;left:50%;transform:translateX(-50%) translateY(22px) scale(.985);}.pxn-alertas{bottom:42px;right:28px;}
+.pxn-mencoes.active,.pxn-n8n.active,.pxn-bq.active,.pxn-ai.active,.pxn-radar.active{transform:translateX(-50%) translateY(0) scale(1);}
+/* pulse rings */
+.px-pulse-ring{position:absolute;left:50%;top:674px;width:200px;height:200px;border-radius:50%;transform:translateX(-50%);pointer-events:none;opacity:0;border:1px solid rgba(95,180,255,.14);box-shadow:0 0 40px rgba(89,199,255,.05);}
+.px-pulse-ring.visible{animation:pxPulse 3s ease-out infinite;}
+.px-pulse-ring.r2.visible{animation-delay:1s;}
+.px-pulse-ring.r3.visible{animation-delay:2s;}
+@keyframes pxPulse{
+  0%  {opacity:0;transform:translateX(-50%) scale(.72);}
+  18% {opacity:.26;}
+  100%{opacity:0;transform:translateX(-50%) scale(1.32);}
+}
+
+/* ── Shared result cards ── */
+.case-results{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;}
+.case-rc{position:relative;padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.016));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transition:border-color .3s,transform .3s;}
+.case-rc:hover{transform:translateY(-2px);}
+.case-rc.cyan:hover{border-color:rgba(0,212,255,.18);}
+.case-rc.blue:hover{border-color:rgba(99,213,255,.18);}
+.case-ri{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin-bottom:11px;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:.08em;font-family:var(--fm);}
+.case-ri.cyan{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.15);color:rgba(0,212,255,.75);}
+.case-ri.blue{background:rgba(99,213,255,.07);border:1px solid rgba(99,213,255,.15);color:rgba(99,213,255,.75);}
+.case-rc strong{display:block;margin-bottom:8px;color:#f5f9ff;font-size:.96rem;letter-spacing:-.01em;font-family:'Outfit',sans-serif;font-weight:600;}
+.case-rc p{margin:0;color:rgba(220,230,250,.62);font-size:.88rem;line-height:1.65;}
+
+/* responsive cases */
+@media(max-width:900px){
+  .case-results{grid-template-columns:repeat(2,1fr);}
+  .cbn-tms{left:24px;}.cbn-erp{right:24px;}.cbn-dash{left:24px;}.cbn-email{right:24px;}
+  .pxn-fontes{left:8px;}.pxn-ambiente{right:8px;}.pxn-dashboard{left:8px;}.pxn-alertas{right:8px;}
+  .px-node,.cb-node{min-width:160px;}
+}
+@media(max-width:768px){
+  .cb-flow-grid{height:auto;display:grid;grid-template-columns:1fr;gap:12px;padding:8px;}
+  .px-flow-grid{height:auto;display:grid;grid-template-columns:1fr;gap:12px;padding:8px;}
+  .cb-flow-lines,.cb-pulse,.px-flow-lines,.px-pulse-ring{display:none;}
+  .cb-node,.cbn-tms,.cbn-wms,.cbn-erp,.cbn-n8n,.cbn-bq,.cbn-ai,.cbn-dash,.cbn-anal,.cbn-email,
+  .px-node,.pxn-fontes,.pxn-mencoes,.pxn-ambiente,.pxn-n8n,.pxn-bq,.pxn-ai,.pxn-dashboard,.pxn-radar,.pxn-alertas{
+    position:relative;top:auto;right:auto;bottom:auto;left:auto;
+    min-width:unset;width:100%;transform:translateY(18px) scale(.985);
+  }
+  .cbn-wms.active,.cbn-n8n.active,.cbn-bq.active,.cbn-ai.active,.cbn-anal.active,
+  .cbn-tms.active,.cbn-erp.active,.cbn-dash.active,.cbn-email.active,
+  .pxn-mencoes.active,.pxn-n8n.active,.pxn-bq.active,.pxn-ai.active,.pxn-radar.active,
+  .pxn-fontes.active,.pxn-ambiente.active,.pxn-dashboard.active,.pxn-alertas.active{transform:translateY(0) scale(1);}
+  .case-results{grid-template-columns:1fr;}
+  .cases-tabs{flex-wrap:wrap;}
+}
 </style>
 </head>
 <body>
@@ -568,6 +740,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
         <a href="#svc"     class="nl">Serviços</a>
         <a href="#about"   class="nl">Sobre</a>
         <a href="#proc"    class="nl">Processo</a>
+        <a href="#cases"   class="nl">Cases</a>
         <a href="#results" class="nl">Resultados</a>
         <a href="#cta"     class="btn btn-p nbtn">Diagnóstico Gratuito</a>
       </div>
@@ -579,6 +752,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
       <a href="#svc"     onclick="toggleMenu()">Serviços</a>
       <a href="#about"   onclick="toggleMenu()">Sobre</a>
       <a href="#proc"    onclick="toggleMenu()">Processo</a>
+      <a href="#cases"   onclick="toggleMenu()">Cases</a>
       <a href="#results" onclick="toggleMenu()">Resultados</a>
       <a href="#cta"     class="btn btn-p" style="justify-content:center;" onclick="toggleMenu()">Diagnóstico Gratuito</a>
     </div>
@@ -838,122 +1012,215 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
 </section>
 
 <!-- ═══════════════════════════════════════
-  CASE BIOTECH — Seção integrada
+  CASES — Tabs (Biotech + PolitixOS)
 ════════════════════════════════════════ -->
-<section id="case-biotech">
-  <div class="cb-glow-wrap">
-    <div class="cb-glow-1"></div>
-    <div class="cb-glow-2"></div>
-    <div class="cb-noise"></div>
+<section id="cases">
+  <div class="cases-glow-wrap">
+    <div class="cases-g1"></div>
+    <div class="cases-g2"></div>
   </div>
 
-  <div class="cb-container">
-    <div class="cb-header rev">
-      <span class="cb-kicker"><span class="cb-dot"></span>Case · Biotech Logística</span>
-      <h2 class="h2" style="margin-top:16px;margin-bottom:16px;">
-        Dados operacionais transformados em<br><span class="grad-text">inteligência estratégica</span>
-      </h2>
-      <p style="max-width:720px;margin:0 auto;font-size:15px;color:var(--tm);line-height:1.8;">
-        Integração entre TMS, WMS e ERP com automação via n8n, centralização no BigQuery,
-        análises com IA, dashboard operacional e envio automatizado por e-mail.
-      </p>
+  <div class="wrap" style="position:relative;z-index:2;">
+
+    <!-- Header -->
+    <div class="cases-hd rev">
+      <span class="sec-label">// Cases</span>
+      <h2 class="h2" style="margin-top:12px;">Projetos reais,<br><span class="grad-text">resultados mensuráveis</span></h2>
+      <p>Cada case mostra a arquitetura completa — da captação de dados à entrega de inteligência operacional e estratégica.</p>
     </div>
 
-    <!-- Flow diagram -->
-    <div class="cb-flow-wrap rev d1">
-      <div class="cb-flow-grid" id="cbFlow">
-        <div class="cb-pulse cb-pulse-top"></div>
-        <div class="cb-pulse cb-pulse-bot"></div>
-
-        <div class="cb-node cbn-tms" data-cbstep="1" id="cbn-tms">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">TMS</div>
-          <div class="cb-node-sub">Transporte</div>
-        </div>
-        <div class="cb-node cbn-wms" data-cbstep="1" id="cbn-wms">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">WMS</div>
-          <div class="cb-node-sub">Armazém</div>
-        </div>
-        <div class="cb-node cbn-erp" data-cbstep="1" id="cbn-erp">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">ERP</div>
-          <div class="cb-node-sub">Gestão</div>
-        </div>
-        <div class="cb-node cbn-n8n" data-cbstep="2" id="cbn-n8n">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">n8n</div>
-          <div class="cb-node-sub">Automação e integração</div>
-        </div>
-        <div class="cb-node cbn-bq" data-cbstep="3" id="cbn-bq">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">BigQuery</div>
-          <div class="cb-node-sub">Banco de dados centralizado</div>
-        </div>
-        <div class="cb-node cbn-ai" data-cbstep="4" id="cbn-ai">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">IA</div>
-          <div class="cb-node-sub">Camada inteligente</div>
-        </div>
-        <div class="cb-node cbn-dash" data-cbstep="5" id="cbn-dash">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">Dashboard</div>
-          <div class="cb-node-sub">Visão operacional</div>
-        </div>
-        <div class="cb-node cbn-anal" data-cbstep="5" id="cbn-anal">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">Análises</div>
-          <div class="cb-node-sub">Insights estratégicos</div>
-        </div>
-        <div class="cb-node cbn-email" data-cbstep="5" id="cbn-email">
-          <div class="cb-node-dot"></div>
-          <div class="cb-node-label">E-mail</div>
-          <div class="cb-node-sub">Envio automatizado</div>
-        </div>
-
-        <svg class="cb-flow-lines" id="cbLines" aria-hidden="true">
-          <defs>
-            <linearGradient id="cbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%"   stop-color="#00d4ff"/>
-              <stop offset="55%"  stop-color="#60a5fa"/>
-              <stop offset="100%" stop-color="#2563eb"/>
-            </linearGradient>
-          </defs>
-          <path class="cb-line" id="cbl-tms-n8n"></path>
-          <path class="cb-line" id="cbl-wms-n8n"></path>
-          <path class="cb-line" id="cbl-erp-n8n"></path>
-          <path class="cb-line" id="cbl-n8n-bq"></path>
-          <path class="cb-line" id="cbl-bq-ai"></path>
-          <path class="cb-line" id="cbl-ai-dash"></path>
-          <path class="cb-line" id="cbl-ai-anal"></path>
-          <path class="cb-line" id="cbl-ai-email"></path>
-        </svg>
-      </div>
+    <!-- Tab buttons -->
+    <div class="cases-tabs rev d1">
+      <button class="case-tab-btn active" onclick="switchCase('biotech',this)" aria-label="Case Biotech">
+        <span class="case-tab-dot cyan"></span>
+        Biotech Logística
+      </button>
+      <button class="case-tab-btn ptx" onclick="switchCase('politixos',this)" aria-label="Case PolitixOS">
+        <span class="case-tab-dot blue"></span>
+        PolitixOS
+      </button>
     </div>
 
-    <!-- Result cards -->
-    <div class="cb-results rev d2">
-      <div class="cb-rc">
-        <span class="cb-ri">01</span>
-        <strong>Integração de sistemas</strong>
-        <p>TMS, WMS e ERP conectados em uma única arquitetura operacional.</p>
+    <!-- ── PANEL: BIOTECH ── -->
+    <div class="case-panels">
+      <div class="case-panel active" id="panel-biotech">
+        <div style="text-align:center;margin-bottom:28px;">
+          <span class="case-kicker-wrap cyan"><span class="dot-c"></span>Case · Biotech Logística</span>
+          <h3 class="h3" style="margin-top:0;font-size:1.1rem;color:var(--tm);font-weight:400;max-width:640px;margin:8px auto 0;line-height:1.7;">
+            Integração entre TMS, WMS e ERP com automação via n8n, centralização no BigQuery, análises com IA e envio automatizado por e-mail.
+          </h3>
+        </div>
+
+        <div class="case-flow-wrap">
+          <div class="cb-flow-grid" id="cbFlow">
+            <div class="cb-pulse cb-pulse-top"></div>
+            <div class="cb-pulse cb-pulse-bot"></div>
+
+            <div class="cb-node cbn-tms" data-cbstep="1" id="cbn-tms">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">TMS</div>
+              <div class="cb-node-sub">Transporte</div>
+            </div>
+            <div class="cb-node cbn-wms" data-cbstep="1" id="cbn-wms">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">WMS</div>
+              <div class="cb-node-sub">Armazém</div>
+            </div>
+            <div class="cb-node cbn-erp" data-cbstep="1" id="cbn-erp">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">ERP</div>
+              <div class="cb-node-sub">Gestão</div>
+            </div>
+            <div class="cb-node cbn-n8n" data-cbstep="2" id="cbn-n8n">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">n8n</div>
+              <div class="cb-node-sub">Automação e integração</div>
+            </div>
+            <div class="cb-node cbn-bq" data-cbstep="3" id="cbn-bq">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">BigQuery</div>
+              <div class="cb-node-sub">Banco de dados centralizado</div>
+            </div>
+            <div class="cb-node cbn-ai" data-cbstep="4" id="cbn-ai">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">IA</div>
+              <div class="cb-node-sub">Camada inteligente</div>
+            </div>
+            <div class="cb-node cbn-dash" data-cbstep="5" id="cbn-dash">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">Dashboard</div>
+              <div class="cb-node-sub">Visão operacional</div>
+            </div>
+            <div class="cb-node cbn-anal" data-cbstep="5" id="cbn-anal">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">Análises</div>
+              <div class="cb-node-sub">Insights estratégicos</div>
+            </div>
+            <div class="cb-node cbn-email" data-cbstep="5" id="cbn-email">
+              <div class="cb-node-dot"></div>
+              <div class="cb-node-label">E-mail</div>
+              <div class="cb-node-sub">Envio automatizado</div>
+            </div>
+
+            <svg class="cb-flow-lines" id="cbLines" aria-hidden="true">
+              <defs>
+                <linearGradient id="cbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#00d4ff"/>
+                  <stop offset="55%"  stop-color="#60a5fa"/>
+                  <stop offset="100%" stop-color="#2563eb"/>
+                </linearGradient>
+              </defs>
+              <path class="cb-line" id="cbl-tms-n8n"></path>
+              <path class="cb-line" id="cbl-wms-n8n"></path>
+              <path class="cb-line" id="cbl-erp-n8n"></path>
+              <path class="cb-line" id="cbl-n8n-bq"></path>
+              <path class="cb-line" id="cbl-bq-ai"></path>
+              <path class="cb-line" id="cbl-ai-dash"></path>
+              <path class="cb-line" id="cbl-ai-anal"></path>
+              <path class="cb-line" id="cbl-ai-email"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="case-results">
+          <div class="case-rc cyan"><span class="case-ri cyan">01</span><strong>Integração de sistemas</strong><p>TMS, WMS e ERP conectados em uma única arquitetura operacional.</p></div>
+          <div class="case-rc cyan"><span class="case-ri cyan">02</span><strong>Centralização de dados</strong><p>BigQuery como base unificada para consulta, análise e escala.</p></div>
+          <div class="case-rc cyan"><span class="case-ri cyan">03</span><strong>Inteligência aplicada</strong><p>IA transformando dados brutos em insights acionáveis e leitura executiva.</p></div>
+          <div class="case-rc cyan"><span class="case-ri cyan">04</span><strong>Entrega automatizada</strong><p>Dashboards, análises e relatórios enviados de forma automática por e-mail.</p></div>
+        </div>
       </div>
-      <div class="cb-rc">
-        <span class="cb-ri">02</span>
-        <strong>Centralização de dados</strong>
-        <p>BigQuery como base unificada para consulta, análise e escala.</p>
+
+      <!-- ── PANEL: POLITIXOS ── -->
+      <div class="case-panel" id="panel-politixos">
+        <div style="text-align:center;margin-bottom:28px;">
+          <span class="case-kicker-wrap blue"><span style="width:6px;height:6px;border-radius:50%;background:#63d5ff;box-shadow:0 0 7px rgba(99,213,255,.9);animation:dot-pulse 2s ease-in-out infinite;flex-shrink:0;"></span>Case · PolitixOS</span>
+          <h3 class="h3" style="margin-top:0;font-size:1.1rem;color:var(--tm);font-weight:400;max-width:640px;margin:8px auto 0;line-height:1.7;">
+            Captação automatizada de sinais públicos, base analítica com BigQuery, classificação por IA e visualização executiva para leitura de risco em tempo real.
+          </h3>
+        </div>
+
+        <div class="case-flow-wrap">
+          <div class="px-flow-grid" id="pxFlow">
+
+            <div class="px-node pxn-fontes" data-pxstep="1" id="pxn-fontes">
+              <div class="px-node-badge">Entrada</div>
+              <div class="px-node-label">Fontes Monitoradas</div>
+              <div class="px-node-sub">Portais, notícias, clipping e sinais públicos</div>
+            </div>
+            <div class="px-node pxn-mencoes" data-pxstep="1" id="pxn-mencoes">
+              <div class="px-node-badge">Entrada</div>
+              <div class="px-node-label">Menções Públicas</div>
+              <div class="px-node-sub">Rastreio contínuo de nomes, temas e acontecimentos</div>
+            </div>
+            <div class="px-node pxn-ambiente" data-pxstep="1" id="pxn-ambiente">
+              <div class="px-node-badge">Entrada</div>
+              <div class="px-node-label">Ambiente Informacional</div>
+              <div class="px-node-sub">Dados externos organizados para leitura estratégica</div>
+            </div>
+            <div class="px-node pxn-n8n" data-pxstep="2" id="pxn-n8n">
+              <div class="px-node-badge">Orquestração</div>
+              <div class="px-node-label">n8n</div>
+              <div class="px-node-sub">Automação, captura, transformação e roteamento</div>
+            </div>
+            <div class="px-node pxn-bq" data-pxstep="3" id="pxn-bq">
+              <div class="px-node-badge">Base Analítica</div>
+              <div class="px-node-label">BigQuery</div>
+              <div class="px-node-sub">Estruturação histórica, cruzamento de dados e escala</div>
+            </div>
+            <div class="px-node pxn-ai" data-pxstep="4" id="pxn-ai">
+              <div class="px-node-badge">Inteligência</div>
+              <div class="px-node-label">IA de Classificação</div>
+              <div class="px-node-sub">Risco, sentimento, relevância local e priorização</div>
+            </div>
+            <div class="px-node pxn-dashboard" data-pxstep="5" id="pxn-dashboard">
+              <div class="px-node-badge">Saída</div>
+              <div class="px-node-label">Painel Executivo</div>
+              <div class="px-node-sub">Visão consolidada para leitura rápida e segura</div>
+            </div>
+            <div class="px-node pxn-radar" data-pxstep="5" id="pxn-radar">
+              <div class="px-node-badge">Saída</div>
+              <div class="px-node-label">Radar de Crise</div>
+              <div class="px-node-sub">Score dinâmico e monitoramento de risco político</div>
+            </div>
+            <div class="px-node pxn-alertas" data-pxstep="5" id="pxn-alertas">
+              <div class="px-node-badge">Saída</div>
+              <div class="px-node-label">Alertas Prioritários</div>
+              <div class="px-node-sub">Resposta rápida com foco no que exige ação imediata</div>
+            </div>
+
+            <div class="px-pulse-ring r1" id="pxring1"></div>
+            <div class="px-pulse-ring r2" id="pxring2"></div>
+            <div class="px-pulse-ring r3" id="pxring3"></div>
+
+            <svg class="px-flow-lines" id="pxLines" aria-hidden="true">
+              <defs>
+                <linearGradient id="pxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#a5bfff"/>
+                  <stop offset="45%"  stop-color="#63d5ff"/>
+                  <stop offset="100%" stop-color="#2f5eff"/>
+                </linearGradient>
+              </defs>
+              <path class="px-line" id="pxl-fontes-n8n"></path>
+              <path class="px-line" id="pxl-mencoes-n8n"></path>
+              <path class="px-line" id="pxl-ambiente-n8n"></path>
+              <path class="px-line" id="pxl-n8n-bq"></path>
+              <path class="px-line" id="pxl-bq-ai"></path>
+              <path class="px-line" id="pxl-ai-dashboard"></path>
+              <path class="px-line" id="pxl-ai-radar"></path>
+              <path class="px-line" id="pxl-ai-alertas"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="case-results">
+          <div class="case-rc blue"><span class="case-ri blue">01</span><strong>Captação automatizada</strong><p>Monitoramento contínuo de sinais públicos relevantes para leitura política e institucional.</p></div>
+          <div class="case-rc blue"><span class="case-ri blue">02</span><strong>Base analítica estruturada</strong><p>Dados organizados em ambiente escalável para histórico, análise e correlação estratégica.</p></div>
+          <div class="case-rc blue"><span class="case-ri blue">03</span><strong>IA aplicada ao risco</strong><p>Classificação de sentimento, criticidade e relevância com apoio de inteligência artificial.</p></div>
+          <div class="case-rc blue"><span class="case-ri blue">04</span><strong>Decisão orientada por dados</strong><p>Painel executivo, radar de crise e alertas prioritários para respostas mais rápidas.</p></div>
+        </div>
       </div>
-      <div class="cb-rc">
-        <span class="cb-ri">03</span>
-        <strong>Inteligência aplicada</strong>
-        <p>IA transformando dados brutos em insights acionáveis e leitura executiva.</p>
-      </div>
-      <div class="cb-rc">
-        <span class="cb-ri">04</span>
-        <strong>Entrega automatizada</strong>
-        <p>Dashboards, análises e relatórios enviados de forma automática por e-mail.</p>
-      </div>
-    </div>
+    </div><!-- /case-panels -->
+
   </div>
 </section>
 
@@ -1007,7 +1274,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
           Em 30 minutos eu consigo mostrar onde sua operação pode ganhar velocidade, reduzir retrabalho e criar uma base real para escalar com IA. Sem enrolação.
         </p>
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-          <a href="mailto:fernando@fernandopinto.ia.br" class="btn btn-p" style="font-size:15px;padding:15px 32px;">
+          <a href="/cdn-cgi/l/email-protection#2d4b485f434c4349426d4b485f434c4349425d4443594203444c034f5f" class="btn btn-p" style="font-size:15px;padding:15px 32px;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Agendar Diagnóstico Gratuito (30 min)
           </a>
@@ -1051,7 +1318,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
 <!-- ═══════════════════════════════════════
   SCRIPTS
 ════════════════════════════════════════ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── Scroll Reveal ── */
 const ro = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
@@ -1104,105 +1371,185 @@ layout();
 window.addEventListener('resize', layout);
 
 /* ════════════════════════════════════════
+   CASES — Tab switcher
+════════════════════════════════════════ */
+let biotechAnimated = false;
+let politixosAnimated = false;
+
+function switchCase(name, btn) {
+  document.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.case-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setTimeout(() => {
+    if (name === 'biotech')   window.dispatchEvent(new Event('refreshBiotech'));
+    if (name === 'politixos') window.dispatchEvent(new Event('refreshPolitixos'));
+  }, 50);
+  if (name === 'biotech' && !biotechAnimated)   setTimeout(() => window.dispatchEvent(new Event('triggerBiotech')),   80);
+  if (name === 'politixos' && !politixosAnimated) setTimeout(() => window.dispatchEvent(new Event('triggerPolitixos')), 80);
+}
+
+/* ════════════════════════════════════════
    BIOTECH CASE — Flow Animation
 ════════════════════════════════════════ */
 (function(){
-  const section = document.getElementById('case-biotech');
-  const flow    = document.getElementById('cbFlow');
-  const svg     = document.getElementById('cbLines');
-  if(!section||!flow||!svg) return;
+  const flow = document.getElementById('cbFlow');
+  const svg  = document.getElementById('cbLines');
+  if(!flow||!svg) return;
 
-  const nodes = section.querySelectorAll('.cb-node');
-  const step1Lines = ['cbl-tms-n8n','cbl-wms-n8n','cbl-erp-n8n'];
-  const step2Lines = ['cbl-n8n-bq'];
-  const step3Lines = ['cbl-bq-ai'];
-  const step4Lines = ['cbl-ai-dash','cbl-ai-anal','cbl-ai-email'];
-  const allLines   = [...step1Lines,...step2Lines,...step3Lines,...step4Lines];
-  let animated=false, sweepTimer=null;
+  const nodes = flow.querySelectorAll('.cb-node');
+  const step1 = ['cbl-tms-n8n','cbl-wms-n8n','cbl-erp-n8n'];
+  const step2 = ['cbl-n8n-bq'];
+  const step3 = ['cbl-bq-ai'];
+  const step4 = ['cbl-ai-dash','cbl-ai-anal','cbl-ai-email'];
+  const all   = [...step1,...step2,...step3,...step4];
+  let swt=null;
 
   function cx(el,pr){ const r=el.getBoundingClientRect(); return (r.left-pr.left)+(r.width/2); }
-  function ty(el,pr){ const r=el.getBoundingClientRect(); return r.top-pr.top; }
-  function by(el,pr){ const r=el.getBoundingClientRect(); return r.bottom-pr.top; }
+  function ty(el,pr){ return el.getBoundingClientRect().top -pr.top; }
+  function by(el,pr){ return el.getBoundingClientRect().bottom-pr.top; }
 
-  function setPath(id,from,to,mode){
-    const p=document.getElementById(id); if(!p||!from||!to)return;
+  function sp(id,f,t,mode){
+    const p=document.getElementById(id); if(!p||!f||!t)return;
     const pr=flow.getBoundingClientRect();
-    const x1=cx(from,pr),y1=by(from,pr),x2=cx(to,pr),y2=ty(to,pr);
-    let d;
-    if(mode==='straight'){ d=`M ${x1} ${y1} L ${x2} ${y2}`; }
-    else { const c=Math.max(44,(y2-y1)*.42); d=`M ${x1} ${y1} C ${x1} ${y1+c},${x2} ${y2-c},${x2} ${y2}`; }
+    const x1=cx(f,pr),y1=by(f,pr),x2=cx(t,pr),y2=ty(t,pr);
+    let d = mode==='straight' ? `M ${x1} ${y1} L ${x2} ${y2}` : (()=>{ const c=Math.max(44,(y2-y1)*.42); return `M ${x1} ${y1} C ${x1} ${y1+c},${x2} ${y2-c},${x2} ${y2}`; })();
     p.setAttribute('d',d);
     const len=p.getTotalLength();
     p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
     p.classList.add('cb-ready');
   }
 
-  function drawLines(){
+  function draw(){
+    if(window.innerWidth<=768)return;
     const g=id=>document.getElementById(id);
-    setPath('cbl-tms-n8n', g('cbn-tms'), g('cbn-n8n'),'curve');
-    setPath('cbl-wms-n8n', g('cbn-wms'), g('cbn-n8n'),'straight');
-    setPath('cbl-erp-n8n', g('cbn-erp'), g('cbn-n8n'),'curve');
-    setPath('cbl-n8n-bq',  g('cbn-n8n'), g('cbn-bq'), 'straight');
-    setPath('cbl-bq-ai',   g('cbn-bq'),  g('cbn-ai'), 'straight');
-    setPath('cbl-ai-dash',  g('cbn-ai'),  g('cbn-dash'),'curve');
-    setPath('cbl-ai-anal',  g('cbn-ai'),  g('cbn-anal'),'straight');
-    setPath('cbl-ai-email', g('cbn-ai'),  g('cbn-email'),'curve');
+    sp('cbl-tms-n8n', g('cbn-tms'),g('cbn-n8n'),'curve');
+    sp('cbl-wms-n8n', g('cbn-wms'),g('cbn-n8n'),'straight');
+    sp('cbl-erp-n8n', g('cbn-erp'),g('cbn-n8n'),'curve');
+    sp('cbl-n8n-bq',  g('cbn-n8n'),g('cbn-bq'), 'straight');
+    sp('cbl-bq-ai',   g('cbn-bq'), g('cbn-ai'), 'straight');
+    sp('cbl-ai-dash', g('cbn-ai'), g('cbn-dash'),'curve');
+    sp('cbl-ai-anal', g('cbn-ai'), g('cbn-anal'),'straight');
+    sp('cbl-ai-email',g('cbn-ai'), g('cbn-email'),'curve');
   }
 
-  function activateNodes(step){
-    nodes.forEach(n=>{ if(Number(n.dataset.cbstep)<=step) n.classList.add('active'); });
-  }
+  function actN(s){ nodes.forEach(n=>{ if(Number(n.dataset.cbstep)<=s) n.classList.add('active'); }); }
 
-  function animLines(ids,stagger,dur){
-    ids.forEach((id,i)=>{
-      const l=document.getElementById(id); if(!l)return;
-      setTimeout(()=>{
-        const len=l.getTotalLength();
-        l.classList.add('active');
-        l.animate([{strokeDashoffset:len,opacity:.25},{strokeDashoffset:0,opacity:1}],
-          {duration:dur,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
-      },i*stagger);
+  function anim(ids,stg,dur){
+    ids.forEach((id,i)=>{ const l=document.getElementById(id); if(!l)return;
+      setTimeout(()=>{ const len=l.getTotalLength(); l.classList.add('active');
+        l.animate([{strokeDashoffset:len,opacity:.25},{strokeDashoffset:0,opacity:1}],{duration:dur,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
+      },i*stg);
     });
   }
 
-  function startSweeps(){
-    if(sweepTimer)return;
-    const run=()=>{
-      allLines.forEach((id,idx)=>{
-        const l=document.getElementById(id); if(!l||!l.classList.contains('active'))return;
-        const len=l.getTotalLength();
-        l.animate(
-          [{strokeDasharray:`${len*.18} ${len}`,strokeDashoffset:len,opacity:.9},
-           {strokeDasharray:`${len*.18} ${len}`,strokeDashoffset:-len,opacity:.9}],
-          {duration:1600,delay:idx*140,easing:'linear'});
-      });
-    };
-    run(); sweepTimer=setInterval(run,4200);
+  function sweeps(){
+    if(swt)return;
+    const run=()=>{ all.forEach((id,i)=>{ const l=document.getElementById(id); if(!l||!l.classList.contains('active'))return;
+      const len=l.getTotalLength();
+      l.animate([{strokeDasharray:`${len*.18} ${len}`,strokeDashoffset:len,opacity:.9},{strokeDasharray:`${len*.18} ${len}`,strokeDashoffset:-len,opacity:.9}],{duration:1600,delay:i*140,easing:'linear'});
+    }); };
+    run(); swt=setInterval(run,4200);
   }
 
-  function animFlow(){
-    if(animated)return; animated=true;
-    activateNodes(1); animLines(step1Lines,180,850);
-    setTimeout(()=>{ activateNodes(2); animLines(step2Lines,0,800); },850);
-    setTimeout(()=>{ activateNodes(3); animLines(step3Lines,0,760); },1500);
-    setTimeout(()=>{ activateNodes(4); animLines(step4Lines,180,880); },2150);
-    setTimeout(()=>{
-      activateNodes(5);
-      ['cbn-n8n','cbn-bq','cbn-ai'].forEach((id,i)=>{
-        setTimeout(()=>{ const n=document.getElementById(id); if(n)n.classList.add('pulsing'); },i*280);
-      });
-      startSweeps();
-    },3050);
+  function go(){
+    if(biotechAnimated)return; biotechAnimated=true;
+    draw();
+    actN(1); anim(step1,180,850);
+    setTimeout(()=>{ actN(2); anim(step2,0,800); },850);
+    setTimeout(()=>{ actN(3); anim(step3,0,760); },1500);
+    setTimeout(()=>{ actN(4); anim(step4,180,880); },2150);
+    setTimeout(()=>{ actN(5); ['cbn-n8n','cbn-bq','cbn-ai'].forEach((id,i)=>{ setTimeout(()=>{ const n=document.getElementById(id); if(n)n.classList.add('pulsing'); },i*280); }); sweeps(); },3050);
   }
 
-  function refresh(){ if(window.innerWidth>768) drawLines(); }
-  window.addEventListener('load',refresh);
-  window.addEventListener('resize',refresh);
+  window.addEventListener('load', draw);
+  window.addEventListener('resize', draw);
+  window.addEventListener('refreshBiotech', draw);
+  window.addEventListener('triggerBiotech', go);
 
   new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ refresh(); animFlow(); } });
-  },{threshold:0.2}).observe(section);
+    entries.forEach(e=>{ if(e.isIntersecting && document.getElementById('panel-biotech').classList.contains('active')){ draw(); go(); } });
+  },{threshold:0.2}).observe(document.getElementById('cases'));
 })();
+
+/* ════════════════════════════════════════
+   POLITIXOS CASE — Flow Animation
+════════════════════════════════════════ */
+(function(){
+  const flow = document.getElementById('pxFlow');
+  const svg  = document.getElementById('pxLines');
+  if(!flow||!svg) return;
+
+  const nodes = flow.querySelectorAll('.px-node');
+  const step1 = ['pxl-fontes-n8n','pxl-mencoes-n8n','pxl-ambiente-n8n'];
+  const step2 = ['pxl-n8n-bq'];
+  const step3 = ['pxl-bq-ai'];
+  const step4 = ['pxl-ai-dashboard','pxl-ai-radar','pxl-ai-alertas'];
+  const all   = [...step1,...step2,...step3,...step4];
+  let shimInt=null;
+
+  function cx(el,pr){ const r=el.getBoundingClientRect(); return (r.left-pr.left)+(r.width/2); }
+  function ty(el,pr){ return el.getBoundingClientRect().top -pr.top; }
+  function by(el,pr){ return el.getBoundingClientRect().bottom-pr.top; }
+
+  function sp(id,f,t,mode){
+    const p=document.getElementById(id); if(!p||!f||!t)return;
+    const pr=flow.getBoundingClientRect();
+    const x1=cx(f,pr),y1=by(f,pr),x2=cx(t,pr),y2=ty(t,pr);
+    const off=Math.max(42,(y2-y1)*.42);
+    const d = mode==='straight' ? `M ${x1} ${y1} L ${x2} ${y2}` : `M ${x1} ${y1} C ${x1} ${y1+off},${x2} ${y2-off},${x2} ${y2}`;
+    p.setAttribute('d',d);
+    const len=p.getTotalLength();
+    p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
+  }
+
+  function draw(){
+    if(window.innerWidth<=768)return;
+    const g=id=>document.getElementById(id);
+    sp('pxl-fontes-n8n',   g('pxn-fontes'),   g('pxn-n8n'),'curve');
+    sp('pxl-mencoes-n8n',  g('pxn-mencoes'),  g('pxn-n8n'),'straight');
+    sp('pxl-ambiente-n8n', g('pxn-ambiente'), g('pxn-n8n'),'curve');
+    sp('pxl-n8n-bq',       g('pxn-n8n'),      g('pxn-bq'), 'straight');
+    sp('pxl-bq-ai',        g('pxn-bq'),       g('pxn-ai'), 'straight');
+    sp('pxl-ai-dashboard', g('pxn-ai'),g('pxn-dashboard'),'curve');
+    sp('pxl-ai-radar',     g('pxn-ai'),g('pxn-radar'),    'straight');
+    sp('pxl-ai-alertas',   g('pxn-ai'),g('pxn-alertas'),  'curve');
+  }
+
+  function actN(s){ nodes.forEach(n=>{ if(Number(n.dataset.pxstep)<=s) n.classList.add('active'); }); }
+
+  function anim(ids,stg){
+    ids.forEach((id,i)=>{ const l=document.getElementById(id); if(!l)return;
+      setTimeout(()=>{ const len=l.getTotalLength(); l.classList.add('active');
+        l.animate([{strokeDashoffset:len,opacity:.18},{strokeDashoffset:0,opacity:1}],{duration:950,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
+      },i*stg);
+    });
+  }
+
+  function shimmer(){
+    if(shimInt)return;
+    shimInt=setInterval(()=>{
+      const id=all[Math.floor(Math.random()*all.length)];
+      const l=document.getElementById(id); if(!l||!l.classList.contains('active'))return;
+      const len=l.getTotalLength();
+      l.animate([{strokeDasharray:`0 ${len}`,strokeDashoffset:0,opacity:1},{strokeDasharray:`${len*.14} ${len}`,strokeDashoffset:-len*.56,opacity:1},{strokeDasharray:`0 ${len}`,strokeDashoffset:-len,opacity:1}],{duration:1550,easing:'ease-in-out'});
+    },1300);
+  }
+
+  function go(){
+    if(politixosAnimated)return; politixosAnimated=true;
+    draw();
+    actN(1); anim(step1,170);
+    setTimeout(()=>{ actN(2); anim(step2,0); },900);
+    setTimeout(()=>{ actN(3); anim(step3,0); },1650);
+    setTimeout(()=>{ actN(4); ['pxring1','pxring2','pxring3'].forEach(id=>{ const r=document.getElementById(id); if(r)r.classList.add('visible'); }); anim(step4,170); },2350);
+    setTimeout(()=>{ actN(5); shimmer(); },3200);
+  }
+
+  window.addEventListener('resize', draw);
+  window.addEventListener('refreshPolitixos', draw);
+  window.addEventListener('triggerPolitixos', go);
+})();-e 
 </script>
 </body>
 </html>
