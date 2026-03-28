@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fernando Pinto · Automação com IA para Operações e Negócios</title>
+<link rel="icon" href="favicon_fp.png" type="image/png">
+<meta name="description" content="Fernando Pinto desenvolve automações com IA, integra sistemas e cria dashboards para reduzir custos operacionais, eliminar retrabalho e acelerar decisões.">
+<meta name="keywords" content="automação com IA, n8n, inteligência artificial para empresas, integração de sistemas, dashboards, BigQuery, automação de processos">
+<meta name="author" content="Fernando Pinto">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Fernando Pinto · Automação com IA para Operações e Negócios">
+<meta property="og:description" content="Automação com IA, integração de sistemas e dashboards para reduzir custos operacionais e escalar processos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fernandopinto.ia.br/">
+<meta property="og:image" content="https://fernandopinto.ia.br/perfil-fernando.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   RESET
+───────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:#050505;color:#e5e5e5;font-family:'DM Sans',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+
+/* ─────────────────────────────────────────────
+   VARIABLES
+───────────────────────────────────────────── */
+:root{
+  --c:    #00d4ff;
+  --cg:   rgba(0,212,255,0.18);
+  --cs:   rgba(0,212,255,0.06);
+  --cb:   rgba(0,212,255,0.22);
+  --amb:  #f59e0b;
+  --pur:  #8b5cf6;
+  --sur:  #0d0d0d;
+  --bdr:  rgba(255,255,255,0.08);
+  --tm:   rgba(255,255,255,0.46);
+  --tf:   rgba(255,255,255,0.26);
+  --fd:  'Outfit',sans-serif;
+  --fb:  'DM Sans',sans-serif;
+  --fm:  'JetBrains Mono',monospace;
+  --r:    16px;
+  --rl:   24px;
+}
+
+/* ─────────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────────── */
+@keyframes floating{
+  0%,100%{transform:translateY(0) rotate(.4deg);}
+  50%     {transform:translateY(-16px) rotate(-.4deg);}
+}
+@keyframes float-sm{
+  0%,100%{transform:translateY(0);}
+  50%     {transform:translateY(-8px);}
+}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 0 24px rgba(0,212,255,.18),0 0 70px rgba(0,212,255,.05);}
+  50%    {box-shadow:0 0 50px rgba(0,212,255,.36),0 0 110px rgba(0,212,255,.12);}
+}
+@keyframes marquee{
+  0%  {transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+@keyframes dot-pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%    {opacity:.45;transform:scale(.65);}
+}
+
+/* ─────────────────────────────────────────────
+   LAYOUT
+───────────────────────────────────────────── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
+.section{position:relative;z-index:1;}
+
+/* ─────────────────────────────────────────────
+   BACKGROUND
+───────────────────────────────────────────── */
+.mesh-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 65% 55% at 18%  8%, rgba(0,212,255,.065) 0%,transparent 70%),
+    radial-gradient(ellipse 50% 45% at 82%  6%, rgba(245,158,11,.04)  0%,transparent 60%),
+    radial-gradient(ellipse 75% 55% at 50% 98%, rgba(0,212,255,.03)   0%,transparent 70%);
+}
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.34;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+/* grain */
+body::before{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─────────────────────────────────────────────
+   TYPOGRAPHY
+───────────────────────────────────────────── */
+h1,h2,h3,h4{
+  font-family:'Outfit',sans-serif;
+  font-weight:600;
+  letter-spacing:-0.01em;
+  line-height:1.28;
+}
+.h1{font-size:clamp(2.2rem,5vw,3.65rem);line-height:1.27;}
+.h2{font-size:clamp(1.8rem,3.8vw,2.7rem);}
+.h3{font-size:1.22rem;line-height:1.35;}
+.h4{font-size:1rem;font-weight:600;}
+
+.grad-text{
+  background:linear-gradient(130deg,#fff 0%,#00d4ff 38%,#e0f8ff 68%,#f59e0b 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.sec-label{
+  font-family:var(--fm);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--c);opacity:.75;
+}
+
+/* ─────────────────────────────────────────────
+   CHIP
+───────────────────────────────────────────── */
+.chip{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--fm);font-size:11px;
+  letter-spacing:.07em;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;
+  border:1px solid var(--cb);
+  color:var(--c);background:var(--cs);
+}
+.dot-c{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--c);box-shadow:0 0 7px rgba(0,212,255,.9);
+  animation:dot-pulse 2s ease-in-out infinite;
+  flex-shrink:0;
+}
+.dot-g{
+  width:6px;height:6px;border-radius:50%;
+  background:#22c55e;box-shadow:0 0 7px rgba(34,197,94,.85);
+  animation:dot-pulse 2.4s ease-in-out infinite;
+  flex-shrink:0;
+}
+
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;
+  padding:13px 28px;border-radius:10px;
+  cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;white-space:nowrap;border:none;
+}
+.btn-p{
+  background:linear-gradient(135deg,rgba(0,212,255,.14),rgba(0,212,255,.06));
+  border:1px solid rgba(0,212,255,.32);
+  color:var(--c);
+}
+.btn-p::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 120%,rgba(0,212,255,.22),transparent 70%);
+  opacity:0;transition:opacity .3s ease;
+}
+.btn-p:hover{
+  border-color:rgba(0,212,255,.74);
+  box-shadow:0 0 22px rgba(0,212,255,.28),0 0 58px rgba(0,212,255,.10),inset 0 1px 0 rgba(0,212,255,.14);
+  transform:translateY(-2px);
+}
+.btn-p:hover::after{opacity:1;}
+
+.btn-g{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.6);
+}
+.btn-g:hover{
+  border-color:rgba(255,255,255,.28);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.85);
+  transform:translateY(-2px);
+}
+
+/* ─────────────────────────────────────────────
+   GLASS / GRAD-BORDER
+───────────────────────────────────────────── */
+.glass{
+  background:rgba(255,255,255,.028);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--bdr);
+}
+.grad-border{position:relative;border-radius:var(--rl);}
+.grad-border::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(140deg,rgba(0,212,255,.45),rgba(255,255,255,.04) 50%,rgba(245,158,11,.22));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;
+}
+
+/* ─────────────────────────────────────────────
+   ICON BOX
+───────────────────────────────────────────── */
+.ib{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ib-c{background:rgba(0,212,255,.08);  border:1px solid rgba(0,212,255,.18);}
+.ib-a{background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.18);}
+.ib-p{background:rgba(139,92,246,.08); border:1px solid rgba(139,92,246,.18);}
+
+/* ─────────────────────────────────────────────
+   BENTO CARDS
+───────────────────────────────────────────── */
+.bc{
+  border-radius:var(--r);
+  border:1px solid var(--bdr);
+  background:#0d0d0d;
+  overflow:hidden;position:relative;
+  transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s ease;
+}
+.bc::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  opacity:0;transition:opacity .38s ease;pointer-events:none;
+}
+.bc:hover{transform:scale(1.023) translateY(-3px);box-shadow:0 24px 64px rgba(0,0,0,.52);}
+.bc:hover::after{opacity:1;}
+.bc-c{border-color:rgba(0,212,255,.2);}
+.bc-c::after{background:radial-gradient(ellipse at 35% 0%,rgba(0,212,255,.09),transparent 65%);}
+.bc-a{border-color:rgba(245,158,11,.2);}
+.bc-a::after{background:radial-gradient(ellipse at 65% 0%,rgba(245,158,11,.09),transparent 65%);}
+.bc-p{border-color:rgba(139,92,246,.2);}
+.bc-p::after{background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.09),transparent 65%);}
+.bc-feat{
+  border-color:rgba(0,212,255,.26);
+  background:linear-gradient(140deg,rgba(0,212,255,.04) 0%,#0d0d0d 55%);
+}
+.bc-feat::after{background:radial-gradient(ellipse at 20% 0%,rgba(0,212,255,.1),transparent 55%);}
+
+/* ─────────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────────── */
+.rev{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1);
+}
+.rev.on{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.10s;}.d2{transition-delay:.20s;}
+.d3{transition-delay:.32s;}.d4{transition-delay:.44s;}
+.d5{transition-delay:.56s;}
+
+/* ─────────────────────────────────────────────
+   STAT
+───────────────────────────────────────────── */
+.sn{
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:2.4rem;line-height:1;
+  background:linear-gradient(135deg,#fff,var(--c));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sl{font-size:11.5px;color:var(--tf);margin-top:4px;letter-spacing:.02em;}
+
+/* ─────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(5,5,5,.78);
+  backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;}
+.nlogo{display:flex;align-items:center;gap:10px;}
+.nlogo-ic{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--c),#0080ff);
+  display:flex;align-items:center;justify-content:center;
+}
+.nlogo-tx{font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;letter-spacing:-0.01em;background:linear-gradient(120deg,#ffffff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nlinks{display:flex;align-items:center;gap:32px;}
+.nl{font-size:13px;color:rgba(255,255,255,.48);transition:color .2s;}
+.nl:hover{color:#fff;}
+.nbtn{font-size:13px;}
+.nhbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.nhbg span{display:block;height:1.5px;border-radius:2px;background:rgba(255,255,255,.65);}
+.nhbg span:nth-child(1){width:22px;}
+.nhbg span:nth-child(2){width:15px;}
+.nhbg span:nth-child(3){width:22px;}
+#mob{display:none;padding:16px 28px 24px;border-top:1px solid rgba(255,255,255,.055);flex-direction:column;gap:16px;}
+#mob.open{display:flex;}
+#mob a{font-size:15px;color:rgba(255,255,255,.65);}
+
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
+#hero{
+  padding-top:96px;min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-g{
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:64px;padding:72px 0;
+}
+.hero-tx{display:flex;flex-direction:column;gap:28px;}
+.hero-stats{
+  display:flex;gap:36px;
+  padding:22px 0;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* Profile */
+.prof-wrap{
+  position:relative;width:340px;flex-shrink:0;
+  animation:floating 7s ease-in-out infinite;
+}
+.prof-card{
+  border-radius:var(--rl);overflow:hidden;background:#0d0d0d;
+  animation:pulse-glow 3.5s ease-in-out infinite;
+}
+.prof-img{
+  width:340px;height:410px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#0d1e26,#050505);
+  border-radius:var(--rl) var(--rl) 0 0;
+}
+.prof-img img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  border-radius:var(--rl) var(--rl) 0 0;
+}
+.prof-fade{
+  position:absolute;bottom:0;left:0;right:0;height:130px;
+  background:linear-gradient(to top,#0d0d0d,transparent);
+  pointer-events:none;
+}
+.prof-fb{
+  position:absolute;inset:0;
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+}
+.prof-fb-av{
+  width:96px;height:96px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(0,212,255,.04));
+  border:1px solid rgba(0,212,255,.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.prof-bar{
+  padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.prof-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;}
+.prof-role{font-family:var(--fm);font-size:11px;color:var(--c);margin-top:2px;}
+.prof-badge{
+  position:absolute;top:-18px;right:-18px;
+  border-radius:14px;padding:10px 16px;
+  display:flex;align-items:center;gap:8px;
+  animation:float-sm 5s ease-in-out infinite;
+  font-size:12.5px;font-weight:500;white-space:nowrap;
+}
+.prof-badge2{
+  position:absolute;bottom:68px;left:-26px;
+  border-radius:12px;padding:9px 15px;
+  display:flex;align-items:center;gap:8px;
+  animation:float-sm 7.5s ease-in-out infinite 1.2s;
+  font-size:12px;font-weight:500;
+}
+.prof-ambient{
+  position:absolute;inset:-36px;border-radius:36px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.07),transparent 72%);
+  pointer-events:none;animation:pulse-glow 4s ease-in-out infinite;
+}
+.li-btn{
+  width:32px;height:32px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s;
+}
+.li-btn:hover{border-color:rgba(0,212,255,.44);}
+
+/* ─────────────────────────────────────────────
+   MARQUEE
+───────────────────────────────────────────── */
+#mq{
+  position:relative;z-index:1;
+  padding:52px 0;
+  border-top:1px solid rgba(255,255,255,.05);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  overflow:hidden;
+}
+.mq-label{text-align:center;margin-bottom:26px;}
+.mq-ov{overflow:hidden;position:relative;}
+.mq-fl{
+  position:absolute;top:0;bottom:0;width:200px;z-index:2;pointer-events:none;
+}
+.mq-fl.l{left:0;background:linear-gradient(to right,#050505,transparent);}
+.mq-fl.r{right:0;background:linear-gradient(to left,#050505,transparent);}
+.mq-track{
+  display:flex;width:max-content;
+  animation:marquee 34s linear infinite;
+}
+.mq-ov:hover .mq-track{animation-play-state:paused;}
+
+.tpill{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 26px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.026);
+  white-space:nowrap;
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:14px;
+  color:rgba(255,255,255,.55);
+  margin-right:14px;user-select:none;cursor:default;
+  transition:color .25s,border-color .25s;
+}
+.tpill:hover{color:rgba(255,255,255,.88);border-color:rgba(0,212,255,.2);}
+.tic{
+  width:22px;height:22px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;font-family:var(--fm);
+}
+
+/* ─────────────────────────────────────────────
+   BENTO GRID — SERVICES
+   Layout:
+     Col 1-2 | Col 3
+   Row 1: [Automação] | [Diagnóstico row-2]
+   Row 2: [Dash][Mkt] | (continues)
+───────────────────────────────────────────── */
+#svc{padding:108px 0;}
+.svc-hd{margin-bottom:52px;}
+.svc-hd p{margin-top:14px;max-width:500px;font-size:15px;color:var(--tm);line-height:1.76;}
+
+.bg{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+/* named areas for desktop */
+.bg-auto{grid-column:span 2;}
+.bg-diag{grid-row:span 2;}
+.bg-dash{grid-column:span 1;}
+.bg-mkt {grid-column:span 1;}
+
+/* inner padding helpers */
+.pd-lg{padding:36px;}
+.pd-md{padding:30px;}
+
+/* small inline tag */
+.btag{
+  font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 11px;border-radius:100px;
+}
+.btag-c{border:1px solid rgba(0,212,255,.18);color:rgba(0,212,255,.7);background:rgba(0,212,255,.05);}
+.btag-sig{border:1px solid rgba(0,212,255,.32);color:rgba(0,212,255,.92);background:rgba(0,212,255,.07);}
+
+/* stack pill */
+.sp{
+  font-size:11px;font-family:var(--fm);
+  padding:3px 10px;border-radius:6px;
+  background:rgba(0,212,255,.05);
+  border:1px solid rgba(0,212,255,.12);
+  color:rgba(0,212,255,.68);
+}
+
+/* diag feature rows */
+.df{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.df:last-child{border-bottom:none;}
+.dbullet{width:6px;height:6px;border-radius:50%;background:var(--c);flex-shrink:0;margin-top:7px;box-shadow:0 0 6px rgba(0,212,255,.5);}
+
+/* ─────────────────────────────────────────────
+   ABOUT
+───────────────────────────────────────────── */
+#about{padding:108px 0;border-top:1px solid rgba(255,255,255,.05);}
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.tli{display:flex;gap:16px;}
+.tld{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px;background:var(--c);box-shadow:0 0 10px rgba(0,212,255,.6);}
+.tld.am{background:var(--amb);box-shadow:0 0 10px rgba(245,158,11,.6);}
+.tln{font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;}
+.tls{font-size:12px;color:var(--tf);margin-top:3px;}
+
+.dfc{border-radius:var(--r);padding:22px;display:flex;gap:16px;align-items:flex-start;}
+.dfc-t{font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;margin-bottom:6px;}
+.dfc-b{font-size:13px;color:rgba(255,255,255,.4);line-height:1.65;}
+
+/* ─────────────────────────────────────────────
+   PROCESS
+───────────────────────────────────────────── */
+#proc{padding:108px 0;border-top:1px solid rgba(255,255,255,.05);}
+.proc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;}
+.proc-conn{
+  position:absolute;top:52px;left:12.5%;right:12.5%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(0,212,255,.28),rgba(0,212,255,.28),transparent);
+}
+.proc-n{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(0,212,255,.09);border:1px solid rgba(0,212,255,.26);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:18px;color:var(--c);
+}
+.proc-n.act{background:rgba(0,212,255,.16);border-color:rgba(0,212,255,.5);box-shadow:0 0 18px rgba(0,212,255,.22);}
+
+/* ─────────────────────────────────────────────
+   CTA
+───────────────────────────────────────────── */
+#cta{padding:108px 0;}
+.cta-in{max-width:640px;margin:0 auto;text-align:center;position:relative;}
+.cta-glow{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:640px;height:420px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.05),transparent 72%);
+  pointer-events:none;z-index:0;
+}
+.cta-inf{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+.cta-ii{display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.32);}
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);padding:30px 0;}
+.ft-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.ft-copy{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.2);letter-spacing:.05em;}
+.ft-sb{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.ft-sb:hover{border-color:rgba(0,212,255,.42);}
+
+/* ─────────────────────────────────────────────
+   CURSOR
+───────────────────────────────────────────── */
+.cur-dot{width:6px;height:6px;border-radius:50%;background:var(--c);position:fixed;pointer-events:none;z-index:9999;transition:transform .1s;}
+.cur-ring{width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,212,255,.38);position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .22s,height .22s,border-color .22s;}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media(max-width:900px){
+  .hero-g{grid-template-columns:1fr;gap:48px;}
+  .prof-wrap{order:-1;margin:0 auto;}
+  .hero-tx{align-items:center;text-align:center;}
+  .hero-ctas,.hero-stats{justify-content:center;}
+  .about-g{grid-template-columns:1fr;gap:44px;}
+  .bg{grid-template-columns:1fr;}
+  .bg-auto,.bg-diag,.bg-dash,.bg-mkt{grid-column:span 1;grid-row:span 1;}
+  .proc-g{grid-template-columns:repeat(2,1fr);}
+  .proc-conn{display:none;}
+  .nlinks{display:none;}
+  .nhbg{display:flex;}
+}
+@media(max-width:560px){
+  .wrap{padding:0 18px;}
+  .prof-wrap{width:280px;}
+  .prof-img{width:280px;height:340px;}
+  .proc-g{grid-template-columns:1fr;}
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfessionalService",
+  "name":"Fernando Pinto",
+  "url":"https://fernandopinto.ia.br/",
+  "image":"https://fernandopinto.ia.br/perfil-fernando.png",
+  "description":"Automação com IA, integração de sistemas, dashboards e otimização de processos para empresas.",
+  "areaServed":"BR",
+  "sameAs":[
+    "https://www.linkedin.com/in/fernandopinto-ia/",
+    "https://github.com/fernandopinto"
+  ]
+}
+</script>
+
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cur-dot" id="cd"></div>
+<div class="cur-ring" id="cr"></div>
+
+<!-- Backgrounds -->
+<div class="mesh-bg"></div>
+<div class="grid-bg"></div>
+
+<!-- ═══════════════════════════════════
+  NAV
+═══════════════════════════════════════ -->
+<nav id="nav">
+  <div class="wrap">
+    <div class="nav-in">
+      <a href="#hero" class="nlogo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="gap:0;">
+        <span class="nlogo-tx">Fernando Pinto</span>
+      </a>
+      <div class="nlinks">
+        <a href="#svc"  class="nl">Serviços</a>
+        <a href="#about" class="nl">Sobre</a>
+        <a href="#proc" class="nl">Processo</a>
+        <a href="#results" class="nl">Resultados</a>
+        <a href="#cta"  class="btn btn-p nbtn">Diagnóstico Gratuito</a>
+      </div>
+      <div class="nhbg" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div id="mob">
+      <a href="#svc"   onclick="toggleMenu()">Serviços</a>
+      <a href="#about" onclick="toggleMenu()">Sobre</a>
+      <a href="#proc"  onclick="toggleMenu()">Processo</a>
+      <a href="#results" onclick="toggleMenu()">Resultados</a>
+      <a href="#cta"   class="btn btn-p" style="justify-content:center;" onclick="toggleMenu()">Diagnóstico Gratuito</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════
+  HERO
+═══════════════════════════════════════ -->
+<section id="hero" class="section">
+  <div class="wrap">
+    <div class="hero-g">
+
+      <!-- TEXT -->
+      <div class="hero-tx">
+        <div class="rev">
+          <span class="chip"><span class="dot-c"></span>Disponível para novos projetos</span>
+        </div>
+
+        <h1 class="h1 rev d1">
+          <span class="grad-text">Automação com IA</span><br>
+          <span style="color:rgba(255,255,255,.92);">que reduz custo operacional</span><br>
+          <span style="color:rgba(255,255,255,.5);">e elimina retrabalho.</span>
+        </h1>
+
+        <p class="rev d2" style="max-width:560px;font-size:16px;line-height:1.8;color:var(--tm);">
+          Automatizo processos, elimino tarefas manuais e integro sistemas com IA para reduzir erros, tempo perdido e custo operacional. Primeiro entendo o processo real. Depois desenho a solução certa.
+        </p>
+
+        <div class="hero-stats rev d3">
+          <div><div class="sn">12+</div><div class="sl">Anos em Operações</div></div>
+          <div><div class="sn">30+</div><div class="sl">Fluxos e automações</div></div>
+          <div><div class="sn">8+</div><div class="sl">Marcas e projetos</div></div>
+        </div>
+
+        <div class="rev d3" style="margin-top:-8px;">
+          <div style="font-size:12px;color:rgba(255,255,255,.34);margin-bottom:10px;">Projetos e experiências com:</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <span class="sp" style="color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03);">Biotech Logística</span>
+            <span class="sp" style="color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03);">ITS Company</span>
+            <span class="sp" style="color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03);">Via Truck</span>
+            <span class="sp" style="color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.03);">UP8 Company</span>
+          </div>
+        </div>
+
+        <div class="hero-ctas rev d4">
+          <a href="#cta" class="btn btn-p">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Agendar Diagnóstico Gratuito (30 min)
+          </a>
+          <a href="#svc" class="btn btn-g">
+            Ver Serviços
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="rev d4">
+        <div class="prof-wrap">
+          <div class="prof-ambient"></div>
+
+          <div class="grad-border prof-card">
+            <div class="prof-img">
+              <img src="perfil-fernando.png" alt="Fernando Pinto" id="pimg"
+                   onerror="this.style.display='none';document.getElementById('pfb').style.display='flex';">
+              <div id="pfb" class="prof-fb">
+                <div class="prof-fb-av">
+                  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,.55)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <span style="font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.1em;">perfil-fernando.png</span>
+              </div>
+              <div class="prof-fade"></div>
+            </div>
+            <div class="prof-bar">
+              <div>
+                <div class="prof-name">Fernando Pinto</div>
+                <div class="prof-role">Solutions Architect · AI Engineer</div>
+              </div>
+              <a href="https://www.linkedin.com/in/fernandopinto-ia/" target="_blank" class="li-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,.44)"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="glass prof-badge">
+            <span class="dot-g"></span>
+            Projeto em andamento
+          </div>
+          <div class="glass prof-badge2">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span style="color:rgba(255,255,255,.75);">n8n · Claude · BigQuery</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  MARQUEE — Tecnologias
+═══════════════════════════════════════ -->
+<section id="mq">
+  <div class="mq-label"><span class="sec-label">Tecnologias que domino</span></div>
+  <div class="mq-ov">
+    <div class="mq-fl l"></div>
+    <div class="mq-fl r"></div>
+    <div class="mq-track" id="mq-track">
+
+      <!-- ── FIRST SET ── -->
+      <div class="tpill"><div class="tic" style="background:rgba(234,88,12,.15);color:#ea580c;">n8n</div>n8n</div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(16,185,129,.14);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6" stroke-linecap="round"/></svg>
+        </div>OpenAI
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(62,207,142,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M20 14l-8 8V10l8-4v8z" fill="#3ecf8e"/><path d="M4 10l8-8v12L4 18V10z" fill="rgba(62,207,142,.4)"/></svg>
+        </div>Supabase
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(66,133,244,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.5-3.5" stroke-linecap="round"/></svg>
+        </div>BigQuery
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(139,92,246,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2"><path d="M12 3L4 20h16L12 3z" stroke-linejoin="round"/><line x1="8" y1="15" x2="16" y2="15"/></svg>
+        </div>Alcis WMS
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(245,158,11,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3" stroke-linecap="round"/></svg>
+        </div>Omie ERP
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(0,212,255,.1);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="2"><rect x="2" y="14" width="20" height="7" rx="1"/><path d="M6 14V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5" stroke-linecap="round"/><circle cx="7" cy="21" r="1.5" fill="var(--c)" stroke="none"/><circle cx="17" cy="21" r="1.5" fill="var(--c)" stroke="none"/></svg>
+        </div>Brudam TMS
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(212,160,89,.13);">
+          <svg width="11" height="13" viewBox="0 0 24 28" fill="#d4a059"><path d="M12 0L24 28H0L12 0z"/></svg>
+        </div>Anthropic
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(0,212,255,.1);">
+          <svg width="11" height="13" viewBox="0 0 24 28" fill="var(--c)"><path d="M12 0L24 28H0L12 0z"/></svg>
+        </div>Claude AI
+      </div>
+      <div class="tpill"><div class="tic" style="background:rgba(59,130,246,.12);color:#60a5fa;font-size:9px;letter-spacing:0;">Py</div>Python</div>
+      <div class="tpill"><div class="tic" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);font-size:11px;font-weight:800;">N</div>Notion</div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(66,133,244,.1);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4l2.5 5.5L20 14l-5.5 2.5L12 22l-2.5-5.5L4 14l5.5-2.5L12 6z" fill="#4285f4"/></svg>
+        </div>Gemini Pro
+      </div>
+
+      <!-- ── DUPLICATE ── -->
+      <div class="tpill"><div class="tic" style="background:rgba(234,88,12,.15);color:#ea580c;">n8n</div>n8n</div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(16,185,129,.14);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M9 12h6M12 9v6" stroke-linecap="round"/></svg>
+        </div>OpenAI
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(62,207,142,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M20 14l-8 8V10l8-4v8z" fill="#3ecf8e"/><path d="M4 10l8-8v12L4 18V10z" fill="rgba(62,207,142,.4)"/></svg>
+        </div>Supabase
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(66,133,244,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.5-3.5" stroke-linecap="round"/></svg>
+        </div>BigQuery
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(139,92,246,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2"><path d="M12 3L4 20h16L12 3z" stroke-linejoin="round"/><line x1="8" y1="15" x2="16" y2="15"/></svg>
+        </div>Alcis WMS
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(245,158,11,.13);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3" stroke-linecap="round"/></svg>
+        </div>Omie ERP
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(0,212,255,.1);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="2"><rect x="2" y="14" width="20" height="7" rx="1"/><path d="M6 14V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5" stroke-linecap="round"/><circle cx="7" cy="21" r="1.5" fill="var(--c)" stroke="none"/><circle cx="17" cy="21" r="1.5" fill="var(--c)" stroke="none"/></svg>
+        </div>Brudam TMS
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(212,160,89,.13);">
+          <svg width="11" height="13" viewBox="0 0 24 28" fill="#d4a059"><path d="M12 0L24 28H0L12 0z"/></svg>
+        </div>Anthropic
+      </div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(0,212,255,.1);">
+          <svg width="11" height="13" viewBox="0 0 24 28" fill="var(--c)"><path d="M12 0L24 28H0L12 0z"/></svg>
+        </div>Claude AI
+      </div>
+      <div class="tpill"><div class="tic" style="background:rgba(59,130,246,.12);color:#60a5fa;font-size:9px;letter-spacing:0;">Py</div>Python</div>
+      <div class="tpill"><div class="tic" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);font-size:11px;font-weight:800;">N</div>Notion</div>
+      <div class="tpill">
+        <div class="tic" style="background:rgba(66,133,244,.1);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4l2.5 5.5L20 14l-5.5 2.5L12 22l-2.5-5.5L4 14l5.5-2.5L12 6z" fill="#4285f4"/></svg>
+        </div>Gemini Pro
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  SERVICES
+═══════════════════════════════════════ -->
+<section id="svc" class="section">
+  <div class="wrap">
+
+    <div class="svc-hd rev">
+      <span class="sec-label">// Serviços</span>
+      <h2 class="h2" style="margin-top:12px;">O que entrego para<br><span class="grad-text">o seu negócio</span></h2>
+      <p>Cada projeto começa entendendo onde sua operação perde tempo, dinheiro e controle. Só depois entra ferramenta, automação e IA.</p>
+    </div>
+
+    <div class="bg" id="bentoGrid">
+
+      <!-- ① AUTOMAÇÃO — span 2 -->
+      <div class="bc bc-c bg-auto pd-lg rev d1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;">
+          <div class="ib ib-c">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <span class="btag btag-c">Mais solicitado</span>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Automação de Processos &amp; IA</h3>
+        <p style="font-size:14px;color:var(--tm);line-height:1.76;max-width:520px;">
+          Automatizo tarefas repetitivas, conecto sistemas e crio fluxos com IA que reduzem retrabalho, aceleram a operação e dão mais controle para sua equipe sem aumentar a complexidade.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;">
+          <span class="sp">n8n</span>
+          <span class="sp">Claude AI</span>
+          <span class="sp">Supabase</span>
+          <span class="sp">BigQuery</span>
+          <span class="sp">Python</span>
+        </div>
+      </div>
+
+      <!-- ② DIAGNÓSTICO — row span 2 (tall) -->
+      <div class="bc bc-feat bg-diag pd-lg rev d2">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <div class="ib ib-c">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M22 12h-2M4 12H2M12 22v-2M12 4V2"/></svg>
+          </div>
+          <span class="btag btag-sig">Signature</span>
+        </div>
+        <div style="font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:var(--tf);text-transform:uppercase;margin-bottom:8px;">Ponto de entrada</div>
+        <h3 class="h3" style="margin-bottom:14px;line-height:1.3;">Diagnóstico de Processos</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.76;margin-bottom:22px;">
+          Em uma análise objetiva, identifico onde sua empresa está perdendo tempo, dinheiro e previsibilidade. Você recebe um plano claro do que automatizar primeiro e onde está o maior retorno.
+        </p>
+        <div style="margin-bottom:28px;">
+          <div class="df"><div class="dbullet"></div><span style="font-size:13px;color:rgba(255,255,255,.65);">Onde automatizar primeiro</span></div>
+          <div class="df"><div class="dbullet"></div><span style="font-size:13px;color:rgba(255,255,255,.65);">Quais gargalos estão travando a escala</span></div>
+          <div class="df"><div class="dbullet"></div><span style="font-size:13px;color:rgba(255,255,255,.65);">Quanto sua operação pode economizar</span></div>
+          <div class="df"><div class="dbullet"></div><span style="font-size:13px;color:rgba(255,255,255,.65);">Roadmap priorizado por impacto e ROI</span></div>
+        </div>
+        <a href="#cta" class="btn btn-p" style="width:100%;justify-content:center;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Agendar Diagnóstico Gratuito
+        </a>
+      </div>
+
+      <!-- ③ DASHBOARDS -->
+      <div class="bc bc-a bg-dash pd-md rev d2">
+        <div class="ib ib-a" style="margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amb)" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Dashboards &amp; Analytics</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.74;">
+          Dashboards que transformam dados dispersos em visão clara de operação, desempenho e prioridade. Menos feeling, mais decisão com contexto.
+        </p>
+      </div>
+
+      <!-- ④ MARKETING -->
+      <div class="bc bc-p bg-mkt pd-md rev d3">
+        <div class="ib ib-p" style="margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pur)" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Marketing &amp; Presença Digital</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.74;">
+          Páginas, identidade e presença digital com foco em autoridade, clareza de oferta e geração de oportunidade comercial.
+        </p>
+      </div>
+
+    </div><!-- /bento grid -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  ABOUT
+═══════════════════════════════════════ -->
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="about-g" id="aboutG">
+
+      <!-- Left -->
+      <div class="rev">
+        <span class="sec-label">// Sobre mim</span>
+        <h2 class="h2" style="margin-top:12px;margin-bottom:22px;">
+          Entendo o problema de negócio<br><span class="grad-text">antes de escrever</span><br>a solução.
+        </h2>
+        <p style="font-size:15px;color:var(--tm);line-height:1.82;margin-bottom:18px;">
+          Atuo como <strong style="color:rgba(255,255,255,.76);">Arquiteto de Soluções com Inteligência Artificial</strong>, ajudando empresas a eliminar gargalos, automatizar processos e escalar operações com eficiência.
+        </p>
+        <p style="font-size:15px;color:var(--tm);line-height:1.82;margin-bottom:34px;">
+          Minha abordagem combina visão estratégica de negócio com execução técnica, conectando dados, sistemas e IA para transformar operações complexas em estruturas simples, inteligentes e escaláveis.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:22px;">
+          <div class="tli">
+            <div class="tld"></div>
+            <div><div class="tln">Arquitetura de Soluções com IA</div><div class="tls">Automação, integração de sistemas e inteligência operacional</div></div>
+          </div>
+          <div class="tli">
+            <div class="tld"></div>
+            <div><div class="tln">Execução técnica completa</div><div class="tls">n8n, BigQuery, Supabase, LLMs e engenharia de dados</div></div>
+          </div>
+          <div class="tli">
+            <div class="tld am"></div>
+            <div><div class="tln">Atuação em múltiplos segmentos</div><div class="tls">Logística, operações, dados e transformação digital</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div style="display:flex;flex-direction:column;gap:14px;" class="rev d2">
+        <div class="dfc glass">
+          <div class="ib ib-c"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="dfc-t">Experiência de chão de fábrica</div><div class="dfc-b">Não projeto automações no vácuo. Cada solução nasce do entendimento real dos processos.</div></div>
+        </div>
+        <div class="dfc glass">
+          <div class="ib ib-a"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--amb)" stroke-width="1.9"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div><div class="dfc-t">Stack moderno &amp; hands-on</div><div class="dfc-b">Executo do zero ao deploy. Não terceirizo a implementação — entrego o resultado diretamente.</div></div>
+        </div>
+        <div class="dfc glass">
+          <div class="ib ib-p"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pur)" stroke-width="1.9"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div><div class="dfc-t">Parceiro de longo prazo</div><div class="dfc-b">Construo relações, não projetos avulsos. Meus clientes crescem comigo ao longo dos meses.</div></div>
+        </div>
+        <div class="grad-border" style="padding:22px;border-radius:var(--r);background:linear-gradient(135deg,rgba(0,212,255,.05),rgba(0,212,255,.02));text-align:center;">
+          <div style="font-family:var(--fm);font-size:10px;color:var(--tf);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Próximo passo</div>
+          <div style="font-family:'Outfit',sans-serif;font-weight:600;font-size:1.05rem;margin-bottom:16px;line-height:1.35;">Vamos conversar sobre seus processos?</div>
+          <a href="#cta" class="btn btn-p" style="width:100%;justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Diagnóstico Gratuito
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  PROCESS
+═══════════════════════════════════════ -->
+<section id="proc" class="section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:60px;" class="rev">
+      <span class="sec-label">// Processo</span>
+      <h2 class="h2" style="margin-top:12px;">Como <span class="grad-text">trabalhamos juntos</span></h2>
+    </div>
+    <div class="proc-g rev d1" id="procG">
+      <div class="proc-conn"></div>
+      <div class="bc" style="padding:30px;text-align:center;"><div class="proc-n">1</div><h4 class="h4" style="margin-bottom:10px;">Diagnóstico</h4><p style="font-size:13px;color:var(--tm);line-height:1.65;">Mapeio seus processos, identifico gargalos e calculo o potencial de automação com métricas reais.</p></div>
+      <div class="bc" style="padding:30px;text-align:center;"><div class="proc-n">2</div><h4 class="h4" style="margin-bottom:10px;">Proposta</h4><p style="font-size:13px;color:var(--tm);line-height:1.65;">Apresento roadmap com soluções priorizadas por ROI e impacto real no negócio.</p></div>
+      <div class="bc" style="padding:30px;text-align:center;"><div class="proc-n">3</div><h4 class="h4" style="margin-bottom:10px;">Execução</h4><p style="font-size:13px;color:var(--tm);line-height:1.65;">Implemento as soluções de forma incremental, com entregas validadas a cada sprint.</p></div>
+      <div class="bc bc-c" style="padding:30px;text-align:center;"><div class="proc-n act">4</div><h4 class="h4" style="margin-bottom:10px;">Escala</h4><p style="font-size:13px;color:var(--tm);line-height:1.65;">Monitoro, otimizo e expando as automações conforme seu negócio cresce.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  CTA / CONTACT
+═══════════════════════════════════════ -->
+
+<section id="results" class="section" style="padding:0 0 108px;">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px;" class="rev">
+      <span class="sec-label">// Resultados</span>
+      <h2 class="h2" style="margin-top:12px;">Aplicação prática em <span class="grad-text">operações reais</span></h2>
+      <p style="max-width:760px;margin:14px auto 0;font-size:15px;color:var(--tm);line-height:1.8;">
+        O objetivo aqui não é só falar de tecnologia. É mostrar o tipo de impacto que a automação certa gera na rotina, no custo e na velocidade da operação.
+      </p>
+    </div>
+
+    <div class="bg" style="grid-template-columns:repeat(3,1fr);">
+      <div class="bc bc-c pd-md rev d1">
+        <div class="ib ib-c" style="margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c)" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Operação mais rápida</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.74;">
+          Automatizações para reduzir etapas manuais, acelerar retorno interno e dar fluidez a processos que dependem de várias pessoas.
+        </p>
+      </div>
+
+      <div class="bc bc-a pd-md rev d2">
+        <div class="ib ib-a" style="margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amb)" stroke-width="1.8"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Menos custo invisível</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.74;">
+          O foco não é só tecnologia. É cortar retrabalho, erro operacional, demora de resposta e desperdício escondido no dia a dia.
+        </p>
+      </div>
+
+      <div class="bc bc-p pd-md rev d3">
+        <div class="ib ib-p" style="margin-bottom:18px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--pur)" stroke-width="1.8"><path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h7"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:10px;">Clareza para decidir</h3>
+        <p style="font-size:13.5px;color:var(--tm);line-height:1.74;">
+          Dashboards e fluxos com IA para dar visibilidade do que está travando a operação e do que precisa ser priorizado agora.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="section">
+  <div class="wrap">
+    <div class="cta-in rev">
+      <div class="cta-glow"></div>
+      <div style="position:relative;z-index:1;">
+        <span class="chip" style="display:inline-flex;margin-bottom:20px;">
+          <span class="dot-g"></span>Agenda aberta para 2026
+        </span>
+        <h2 class="h2" style="margin-bottom:18px;">
+          Pronto para transformar seus<br><span class="grad-text">processos em vantagem?</span>
+        </h2>
+        <p style="font-size:16px;color:var(--tm);line-height:1.8;margin-bottom:36px;">
+          Em 30 minutos eu consigo mostrar onde sua operação pode ganhar velocidade, reduzir retrabalho e criar uma base real para escalar com IA. Sem enrolação.
+        </p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <a href="mailto:eu@fernandopinto.ia.br" class="btn btn-p" style="font-size:15px;padding:15px 32px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Agendar Diagnóstico Gratuito (30 min)
+          </a>
+          <a href="https://wa.me/5531996158654" target="_blank" class="btn btn-g" style="font-size:15px;padding:15px 32px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+        <div class="cta-inf">
+          <div class="cta-ii"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,.5)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Resposta em até 24h</div>
+          <div class="cta-ii"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,.5)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Contagem, MG · Brasil</div>
+          <div class="cta-ii"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(0,212,255,.5)" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 14 8 14s8-8.5 8-14a8 8 0 0 0-8-8z"/></svg>Atendimento remoto global</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+  FOOTER
+═══════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="ft-in">
+      <a href="#hero" class="nlogo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="gap:0;">
+        <span class="nlogo-tx" style="font-size:14px;">Fernando Pinto</span>
+      </a>
+      <div class="ft-copy">© 2026 fernandopinto.ia.br · Todos os direitos reservados</div>
+      <div style="display:flex;gap:10px;">
+        <a href="https://www.linkedin.com/in/fernandopinto-ia" target="_blank" class="ft-sb">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,.4)"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://github.com/fernandopinto" target="_blank" class="ft-sb">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,.4)"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════
+  SCRIPTS
+═══════════════════════════════════════ -->
+<script>
+/* ── Scroll Reveal ── */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.rev').forEach(el => ro.observe(el));
+setTimeout(() => document.querySelectorAll('#hero .rev').forEach(el => el.classList.add('on')), 60);
+
+/* ── Cursor ── */
+const cd = document.getElementById('cd'), cr = document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+if (!('ontouchstart' in window)) {
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cd.style.left=(mx-3)+'px'; cd.style.top=(my-3)+'px';
+  });
+  (function tick(){
+    rx+=(mx-rx)*.14; ry+=(my-ry)*.14;
+    cr.style.left=rx+'px'; cr.style.top=ry+'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cd.style.transform='scale(2.2)';cr.style.width=cr.style.height='48px';cr.style.borderColor='rgba(0,212,255,.72)';});
+    el.addEventListener('mouseleave',()=>{cd.style.transform='scale(1)';cr.style.width=cr.style.height='30px';cr.style.borderColor='rgba(0,212,255,.38)';});
+  });
+} else { cd.style.display=cr.style.display='none'; }
+
+/* ── Mobile menu ── */
+function toggleMenu(){document.getElementById('mob').classList.toggle('open');}
+
+/* ── Responsive layout ── */
+function layout(){
+  const w  = window.innerWidth;
+  const bg = document.getElementById('bentoGrid');
+  const ag = document.getElementById('aboutG');
+  const pg = document.getElementById('procG');
+
+  if(bg){
+    if(w<900){
+      bg.style.gridTemplateColumns='1fr';
+      ['bg-auto','bg-diag','bg-dash','bg-mkt'].forEach(c=>{
+        const el=bg.querySelector('.'+c);
+        if(el){el.style.gridColumn='span 1';el.style.gridRow='span 1';}
+      });
+    } else {
+      bg.style.gridTemplateColumns='repeat(3,1fr)';
+      const auto=bg.querySelector('.bg-auto'); if(auto){auto.style.gridColumn='span 2';auto.style.gridRow='';}
+      const diag=bg.querySelector('.bg-diag'); if(diag){diag.style.gridColumn='span 1';diag.style.gridRow='span 2';}
+      const dash=bg.querySelector('.bg-dash'); if(dash){dash.style.gridColumn='span 1';dash.style.gridRow='';}
+      const mkt =bg.querySelector('.bg-mkt');  if(mkt) {mkt.style.gridColumn='span 1';mkt.style.gridRow='';}
+    }
+  }
+  if(ag) ag.style.gridTemplateColumns = w<900 ? '1fr' : '1fr 1fr';
+  if(pg) pg.style.gridTemplateColumns = w<900 ? (w<560?'1fr':'repeat(2,1fr)') : 'repeat(4,1fr)';
+}
+layout();
+window.addEventListener('resize', layout);
+</script>
+</body>
+</html>
