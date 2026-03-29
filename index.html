@@ -1160,16 +1160,19 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
       <p>Cada case mostra a arquitetura completa — da captação de dados à entrega de inteligência operacional e estratégica.</p>
     </div>
 
-    <!-- Tab buttons -->
+    <!-- Tab buttons — PolitixOS oculto, reativar quando lançar o produto -->
+    <!-- Quando reativar: descomentar o segundo <button> abaixo -->
     <div class="cases-tabs rev d1">
       <button class="case-tab-btn active" onclick="switchCase('biotech',this)" aria-label="Case Biotech">
         <span class="case-tab-dot cyan"></span>
         Biotech Logística
       </button>
+      <!-- POLITIXOS — descomentar quando lançar o produto
       <button class="case-tab-btn ptx" onclick="switchCase('politixos',this)" aria-label="Case PolitixOS">
         <span class="case-tab-dot blue"></span>
         PolitixOS
       </button>
+      -->
     </div>
 
     <!-- ── PANEL: BIOTECH ── -->
@@ -1261,7 +1264,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
         </div>
       </div>
 
-      <!-- ── PANEL: POLITIXOS ── -->
+      <!-- ── PANEL: POLITIXOS — oculto, reativar após lançamento do produto ──
       <div class="case-panel" id="panel-politixos">
         <div style="text-align:center;margin-bottom:28px;">
           <span class="case-kicker-wrap blue"><span style="width:6px;height:6px;border-radius:50%;background:#63d5ff;box-shadow:0 0 7px rgba(99,213,255,.9);animation:dot-pulse 2s ease-in-out infinite;flex-shrink:0;"></span>Case · PolitixOS</span>
@@ -1350,6 +1353,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);pa
           <div class="case-rc blue"><span class="case-ri blue">04</span><strong>Decisão orientada por dados</strong><p>Painel executivo, radar de crise e alertas prioritários para respostas mais rápidas.</p></div>
         </div>
       </div>
+      ══ fim PANEL POLITIXOS oculto ══ -->
     </div><!-- /case-panels -->
 
   </div>
@@ -1503,9 +1507,13 @@ window.addEventListener('resize', layout);
 
 /* ════════════════════════════════════════
    CASES — Tab switcher
+   PolitixOS oculto — para reativar quando lançar o produto:
+   1. Descomentar os botões de tab no HTML (linha ~1163)
+   2. Descomentar o panel-politixos no HTML (linha ~1264)
+   3. Descomentar o bloco POLITIXOS CASE no JS abaixo
 ════════════════════════════════════════ */
 let biotechAnimated = false;
-let politixosAnimated = false;
+// let politixosAnimated = false; // ← descomentar ao reativar PolitixOS
 
 function switchCase(name, btn) {
   document.querySelectorAll('.case-panel').forEach(p => p.classList.remove('active'));
@@ -1513,11 +1521,11 @@ function switchCase(name, btn) {
   document.querySelectorAll('.case-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   setTimeout(() => {
-    if (name === 'biotech')   window.dispatchEvent(new Event('refreshBiotech'));
-    if (name === 'politixos') window.dispatchEvent(new Event('refreshPolitixos'));
+    if (name === 'biotech') window.dispatchEvent(new Event('refreshBiotech'));
+    // if (name === 'politixos') window.dispatchEvent(new Event('refreshPolitixos')); // ← descomentar ao reativar
   }, 50);
-  if (name === 'biotech' && !biotechAnimated)   setTimeout(() => window.dispatchEvent(new Event('triggerBiotech')),   80);
-  if (name === 'politixos' && !politixosAnimated) setTimeout(() => window.dispatchEvent(new Event('triggerPolitixos')), 80);
+  if (name === 'biotech' && !biotechAnimated) setTimeout(() => window.dispatchEvent(new Event('triggerBiotech')), 80);
+  // if (name === 'politixos' && !politixosAnimated) setTimeout(() => window.dispatchEvent(new Event('triggerPolitixos')), 80); // ← descomentar ao reativar
 }
 
 /* ════════════════════════════════════════
@@ -1605,8 +1613,14 @@ function switchCase(name, btn) {
 
 /* ════════════════════════════════════════
    POLITIXOS CASE — Flow Animation
+   OCULTO — descomentar a função abaixo ao reativar PolitixOS
 ════════════════════════════════════════ */
+// Para reativar: apagar a linha "return;" abaixo e descomentar os 3 itens no HTML + JS acima
 (function(){
+  // PolitixOS oculto — sair imediatamente enquanto o produto não é lançado
+  return;
+
+  var politixosAnimated = false;
   const flow = document.getElementById('pxFlow');
   const svg  = document.getElementById('pxLines');
   if(!flow||!svg) return;
@@ -1617,70 +1631,82 @@ function switchCase(name, btn) {
   const step3 = ['pxl-bq-ai'];
   const step4 = ['pxl-ai-dashboard','pxl-ai-radar','pxl-ai-alertas'];
   const all   = [...step1,...step2,...step3,...step4];
-  let shimInt=null;
+  let shimInt = null;
 
   function cx(el,pr){ const r=el.getBoundingClientRect(); return (r.left-pr.left)+(r.width/2); }
-  function ty(el,pr){ return el.getBoundingClientRect().top -pr.top; }
-  function by(el,pr){ return el.getBoundingClientRect().bottom-pr.top; }
+  function ty(el,pr){ return el.getBoundingClientRect().top  - pr.top; }
+  function by(el,pr){ return el.getBoundingClientRect().bottom - pr.top; }
 
   function sp(id,f,t,mode){
     const p=document.getElementById(id); if(!p||!f||!t)return;
     const pr=flow.getBoundingClientRect();
     const x1=cx(f,pr),y1=by(f,pr),x2=cx(t,pr),y2=ty(t,pr);
     const off=Math.max(42,(y2-y1)*.42);
-    const d = mode==='straight' ? `M ${x1} ${y1} L ${x2} ${y2}` : `M ${x1} ${y1} C ${x1} ${y1+off},${x2} ${y2-off},${x2} ${y2}`;
+    const d = mode==='straight'
+      ? `M ${x1} ${y1} L ${x2} ${y2}`
+      : `M ${x1} ${y1} C ${x1} ${y1+off},${x2} ${y2-off},${x2} ${y2}`;
     p.setAttribute('d',d);
     const len=p.getTotalLength();
     p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
   }
 
   function draw(){
-    if(window.innerWidth<=768)return;
+    if(window.innerWidth<=768) return;
     const g=id=>document.getElementById(id);
-    sp('pxl-fontes-n8n',   g('pxn-fontes'),   g('pxn-n8n'),'curve');
-    sp('pxl-mencoes-n8n',  g('pxn-mencoes'),  g('pxn-n8n'),'straight');
-    sp('pxl-ambiente-n8n', g('pxn-ambiente'), g('pxn-n8n'),'curve');
-    sp('pxl-n8n-bq',       g('pxn-n8n'),      g('pxn-bq'), 'straight');
-    sp('pxl-bq-ai',        g('pxn-bq'),       g('pxn-ai'), 'straight');
-    sp('pxl-ai-dashboard', g('pxn-ai'),g('pxn-dashboard'),'curve');
-    sp('pxl-ai-radar',     g('pxn-ai'),g('pxn-radar'),    'straight');
-    sp('pxl-ai-alertas',   g('pxn-ai'),g('pxn-alertas'),  'curve');
+    sp('pxl-fontes-n8n',   g('pxn-fontes'),   g('pxn-n8n'), 'curve');
+    sp('pxl-mencoes-n8n',  g('pxn-mencoes'),  g('pxn-n8n'), 'straight');
+    sp('pxl-ambiente-n8n', g('pxn-ambiente'), g('pxn-n8n'), 'curve');
+    sp('pxl-n8n-bq',       g('pxn-n8n'),      g('pxn-bq'),  'straight');
+    sp('pxl-bq-ai',        g('pxn-bq'),       g('pxn-ai'),  'straight');
+    sp('pxl-ai-dashboard', g('pxn-ai'), g('pxn-dashboard'), 'curve');
+    sp('pxl-ai-radar',     g('pxn-ai'), g('pxn-radar'),     'straight');
+    sp('pxl-ai-alertas',   g('pxn-ai'), g('pxn-alertas'),   'curve');
   }
 
   function actN(s){ nodes.forEach(n=>{ if(Number(n.dataset.pxstep)<=s) n.classList.add('active'); }); }
 
   function anim(ids,stg){
-    ids.forEach((id,i)=>{ const l=document.getElementById(id); if(!l)return;
-      setTimeout(()=>{ const len=l.getTotalLength(); l.classList.add('active');
-        l.animate([{strokeDashoffset:len,opacity:.18},{strokeDashoffset:0,opacity:1}],{duration:950,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
-      },i*stg);
+    ids.forEach((id,i)=>{ const l=document.getElementById(id); if(!l) return;
+      setTimeout(()=>{
+        const len=l.getTotalLength(); l.classList.add('active');
+        l.animate([{strokeDashoffset:len,opacity:.18},{strokeDashoffset:0,opacity:1}],
+          {duration:950,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
+      }, i*stg);
     });
   }
 
   function shimmer(){
-    if(shimInt)return;
+    if(shimInt) return;
     shimInt=setInterval(()=>{
       const id=all[Math.floor(Math.random()*all.length)];
-      const l=document.getElementById(id); if(!l||!l.classList.contains('active'))return;
+      const l=document.getElementById(id); if(!l||!l.classList.contains('active')) return;
       const len=l.getTotalLength();
-      l.animate([{strokeDasharray:`0 ${len}`,strokeDashoffset:0,opacity:1},{strokeDasharray:`${len*.14} ${len}`,strokeDashoffset:-len*.56,opacity:1},{strokeDasharray:`0 ${len}`,strokeDashoffset:-len,opacity:1}],{duration:1550,easing:'ease-in-out'});
+      l.animate([
+        {strokeDasharray:`0 ${len}`,strokeDashoffset:0,opacity:1},
+        {strokeDasharray:`${len*.14} ${len}`,strokeDashoffset:-len*.56,opacity:1},
+        {strokeDasharray:`0 ${len}`,strokeDashoffset:-len,opacity:1}
+      ],{duration:1550,easing:'ease-in-out'});
     },1300);
   }
 
   function go(){
-    if(politixosAnimated)return; politixosAnimated=true;
+    if(politixosAnimated) return; politixosAnimated=true;
     draw();
     actN(1); anim(step1,170);
     setTimeout(()=>{ actN(2); anim(step2,0); },900);
     setTimeout(()=>{ actN(3); anim(step3,0); },1650);
-    setTimeout(()=>{ actN(4); ['pxring1','pxring2','pxring3'].forEach(id=>{ const r=document.getElementById(id); if(r)r.classList.add('visible'); }); anim(step4,170); },2350);
+    setTimeout(()=>{
+      actN(4);
+      ['pxring1','pxring2','pxring3'].forEach(id=>{ const r=document.getElementById(id); if(r) r.classList.add('visible'); });
+      anim(step4,170);
+    },2350);
     setTimeout(()=>{ actN(5); shimmer(); },3200);
   }
 
   window.addEventListener('resize', draw);
   window.addEventListener('refreshPolitixos', draw);
   window.addEventListener('triggerPolitixos', go);
-})();-e 
+})();
 </script>
 </body>
 </html>
